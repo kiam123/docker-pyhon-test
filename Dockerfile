@@ -16,13 +16,20 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Includes minimal runtime used for executing non GUI Java programs
 #========================
 RUN apt-get -qqy update \
-    && apt-get -qqy --no-install-recommends install \
-        python install python-pip \
-        software-properties-common apt-add-repository universe
-        
-# RUN apt-get -qqy update \
-#     && apt-get -qqy --no-install-recommends install \ 
-#     pip virtualenv \
-#     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
+  && apt-get -qqy --no-install-recommends install \
+     curl \
+     sudo \
+     git \
+     python-minimal \
+     python-pip \
+     python-setuptools \
+  && curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - \
+  && apt-get install -y nodejs \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+  
+RUN apt-get install npm
+RUN npm install -g apidoc
+# RUN npm install -g live-server
 RUN pip install virtualenv
+
+EXPOSE 80
